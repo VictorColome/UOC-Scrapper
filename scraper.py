@@ -12,3 +12,4 @@ class Scraper:
         print(page)
         soup = BeautifulSoup(page.content, features="html.parser")
         print(soup.prettify())
+        print("gogogo")

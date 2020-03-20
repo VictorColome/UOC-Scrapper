@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from sample.article import Article
+from sample.data_exporter import DataExporter
 
 
 class Scraper:
@@ -25,7 +26,8 @@ class Scraper:
             articles_to_scrap = self.scrap_category(category)
             for article_to_scrap in articles_to_scrap:
                 articles.append(self.scrap_article(self.host + article_to_scrap))
-            # TODO: Store in CSV
+            data_exporter = DataExporter()
+            data_exporter.export_articles_to_csv(articles)
 
     # TODO: Carlos
     def scrap_categories(self):

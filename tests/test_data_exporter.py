@@ -1,7 +1,7 @@
 import unittest
 
 
-class TestScraper(unittest.TestCase):
+class TestDataExporter(unittest.TestCase):
 
     # TODO: Victor
     def export_attributes_to_csv(self):

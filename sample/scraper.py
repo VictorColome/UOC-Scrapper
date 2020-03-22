@@ -65,15 +65,10 @@ class Scraper:
     def __scrap_article_attributes(self, article, soup):
         """Scrap article's attributes"""
         article.name = soup.find("div", {"class": "articulo"}).find('strong').string
-        price = soup.find("span", {"class": "baseprice"})
-        if price is None:
-            # Caso raro, https://www.pccomponentes.com/xiaomi-redmi-note-8t-4-64gb-azul-estelar-libre
-            # Habría que cogerlo de otra forma
-            price = "999999999"
-        else:
-            price = price.string
-        cents = soup.find("span", {"class": "cents"}).string
-        article.set_price(price, cents)
+        price_info = soup.find("div", {"id": "precio-main"})
+        article.price = price_info['data-price']
+        article.pvp = price_info['data-baseprice']
+        article.discount = price_info['data-discount']
         article.no_iva = soup.find("b", {"class": "no-iva-base"}).string
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 

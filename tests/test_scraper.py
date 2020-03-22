@@ -17,6 +17,7 @@ class TestScraper(unittest.TestCase):
         for a in articles:
             assert a is not None
             print(a)
+            # print(scraper.scrap_article("https://www.pccomponentes.com"+a))
 
     def test_scrap_article(self):
         scraper = Scraper()

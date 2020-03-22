@@ -3,6 +3,8 @@ class Article:
     def __init__(self):
         self.name = None
         self.price = 0.0
+        self.pvp = 0.0
+        self.discount = 0.0
         self.no_iva = 0.0
         self.rating = 0.0
 
@@ -18,5 +20,7 @@ class Article:
     def __str__(self):
         return "Article: " + self.name + \
                "\n Price: " + str(self.price) + \
-                "\n No IVA: " + str(self.no_iva) + \
+               "\n PVP: " + str(self.pvp) + \
+               "\n Discount: " + str(self.discount) + \
+               "\n No IVA: " + str(self.no_iva) + \
                "\n Rating: " + str(self.rating)

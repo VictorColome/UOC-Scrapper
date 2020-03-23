@@ -4,8 +4,10 @@ from bs4 import BeautifulSoup
 from sample.article import Article
 from sample.data_exporter import DataExporter
 
-
 class Categoria:
+    """
+    Class containing the information regarding categories of items
+    """
     loc = ""
     lastmod = ""
     changefreq = ""

@@ -5,6 +5,14 @@ from sample.article import Article
 from sample.data_exporter import DataExporter
 
 
+class Categoria:
+    loc = ""
+    lastmod = ""
+    changefreq = ""
+    priority = ""
+    def __str__(self):
+        return "\nloc="+self.loc+"\nlastmod="+self.lastmod+"\nchangefreq="+self.changefreq+"\npriority="+self.priority
+
 class Scraper:
     """
     Scraper for the page pccomponentes(https://www.pccomponentes.com/).
@@ -22,6 +30,10 @@ class Scraper:
         """Scrap every article from every category"""
         articles = []
         categories = self.scrap_categories()
+
+        for x in range(len(categories)):
+            print(categories[x])
+
         for category in categories:
             articles_to_scrap = self.scrap_category(category)
             for article_to_scrap in articles_to_scrap:
@@ -32,7 +44,20 @@ class Scraper:
     # TODO: Carlos
     def scrap_categories(self):
         """Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml"""
-        return []
+        page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml")
+        soup = BeautifulSoup(page.text, "html.parser")
+        cat_list = soup.find_all('url')
+        categorias = []
+        for cat in cat_list:
+            newcat = Categoria()
+            newcat.loc = cat.find_all('loc')[0].get_text()
+            newcat.lastmod = cat.find_all('lastmod')[0].get_text()
+            newcat.changefreq = cat.find_all('changefreq')[0].get_text()
+            newcat.priority = cat.find_all('priority')[0].get_text()
+            categorias.append(newcat)
+
+        print(categorias)
+        return categorias
 
     # TODO: Victor
     def scrap_category(self, category_url):
@@ -74,5 +99,7 @@ class Scraper:
 
     # TODO: Carlos
     def __scrap_article_specifications(self, article, soup):
+
         """Scrap article's specifications and features"""
+        article.specifications = soup.find("div", {"id": "ficha-producto-caracteristicas"}).string
         pass

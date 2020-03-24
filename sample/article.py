@@ -7,6 +7,7 @@ class Article:
         self.discount = 0.0
         self.no_iva = 0.0
         self.rating = 0.0
+        self.features = None
 
     def set_price(self, price, cents):
         if cents is None:
@@ -23,4 +24,5 @@ class Article:
                "\n PVP: " + str(self.pvp) + \
                "\n Discount: " + str(self.discount) + \
                "\n No IVA: " + str(self.no_iva) + \
-               "\n Rating: " + str(self.rating)
+               "\n Rating: " + str(self.rating) + \
+               "\n Features: " + str(self.features)

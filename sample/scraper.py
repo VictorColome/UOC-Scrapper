@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from sample.article import Article
 from sample.data_exporter import DataExporter
 
+
 class Categoria:
     """
     Class containing the information regarding categories of items
@@ -12,8 +13,10 @@ class Categoria:
     lastmod = ""
     changefreq = ""
     priority = ""
+
     def __str__(self):
         return "\nloc="+self.loc+"\nlastmod="+self.lastmod+"\nchangefreq="+self.changefreq+"\npriority="+self.priority
+
 
 class Scraper:
     """

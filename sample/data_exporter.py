@@ -25,4 +25,12 @@ class DataExporter:
                 row = []
 
     def export_specifications_to_csv(self, articles):
-        pass
+        Path("csv/").mkdir(parents=True, exist_ok=True)
+        file_name = 'csv/articles_specifications_' + str(date.today()).replace('-', '') + '.csv'
+        with open(file_name, mode='w') as articles_file:
+            csv_writer = csv.writer(articles_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            row = []
+            for article in articles:
+                row.append(article.features)
+                csv_writer.writerow(row)
+                row = []

@@ -7,8 +7,8 @@ class Feature:
     manufacturer_url= ""
 
     def __str__(self):
-        return "\ncharacteristics="+self.characteristics+\
-               "\nspecifications="+self.specifications+\
+        return "\ncharacteristics="+"|".join([str(x) for x in self.characteristics])+\
+               "\nspecifications="+"|".join([str(x) for x in self.specifications])+\
                "\nmanufacturer_url="+self.manufacturer_url
 
 class Specification:
@@ -19,5 +19,4 @@ class Specification:
     specs = []
 
     def __str__(self):
-        return "\nname="+self.name+\
-               "\nspec="+self.specs
+        return "\n"+self.name+"="+"|".join(self.specs)

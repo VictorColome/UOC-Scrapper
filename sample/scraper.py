@@ -41,16 +41,17 @@ class Scraper:
     def scrap_all(self):
         """Scrap every article from every category"""
         articles = []
-        categories = self.scrap_categories()
+        categories = self.scrap_categories()[:2]   # TODO: Para limitar el alcance durante las pruebas
 
         # for x in range(len(categories)):
         #     print(categories[x])
 
         for category in categories:
-            articles_to_scrap = self.scrap_category(category)
+            articles_to_scrap = self.scrap_category(category)[:3]   # TODO: Para limitar el alcance durante las pruebas
             for article_to_scrap in articles_to_scrap:
                 articles.append(self.scrap_article(self.host + article_to_scrap))
             data_exporter = DataExporter()
+            print(articles[0])
             data_exporter.export_articles_to_csv(articles)
 
     # DONE: Carlos
@@ -113,28 +114,34 @@ class Scraper:
     # TODO: Carlos
     def __scrap_article_specifications(self, article, soup):
 
-        """Scrap article's specifications and features"""
-        featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})
-        feat = Feature()
+        try:
+            """Scrap article's specifications and features"""
+            featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})
+            feat = Feature()
 
-        listacar = featitem.find_all('ul')[0]
-        listaesp = featitem.find_all('ul')[1]
+            listacar = featitem.find_all('ul')[0]
+            listaesp = featitem.find_all('ul')[1]
 
-        feat.characteristics = []
-        for carac in listacar:
-            feat.characteristics.append(carac.text)
+            feat.characteristics = []
+            for carac in listacar:
+                feat.characteristics.append(carac.text)
 
-        feat.specifications = []
-        # TODO Aquí me llego
-        for espec in listaesp:
-            for spec in espec:
+            feat.specifications = []
+            for espec in listaesp:
                 spec_ind = Specification()
-                spec_ind.name = spec[0]
                 spec_ind.specs = []
-                for inner_spec in spec[1]:
-                    spec_ind.specs.append(inner_spec.text())
+                for i, especgrp in enumerate(espec):
+                    if i == 0:
+                        spec_ind.name = str(especgrp)
+                    else:
+                        for especitem in especgrp:
+                            spec_ind.specs.append(str(especitem.text))
                 feat.specifications.append(spec_ind)
 
-        feat.manufacturer_url = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"}).find("a").text()
+            capaurl = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"})
+            if capaurl is not None:
+                feat.manufacturer_url = capaurl.find("a").next_element
 
-        article.features = feat
+            article.features = feat
+        except:
+            print("Error leyendo el artículo: " + article.name)

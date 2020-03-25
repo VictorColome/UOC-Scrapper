@@ -71,16 +71,18 @@ class Scraper:
         page = requests.get(category_url + "?page=1")
         i = 1
         articles = []
-        get_url = lambda x: x['data-url']
         while page.status_code != 404:
             soup = BeautifulSoup(page.content, features="html.parser")
-            articles = articles + list(map(get_url, soup.findAll("div", {"class": "js-article-info"})))
+            articles = articles + list(map(self.__get_url, soup.findAll("div", {"class": "js-article-info"})))
             i += 1
             # TODO Delete or change ?page functionality
             if i == 2:
                 break
             page = requests.get(category_url + "?page=" + str(i))
         return articles
+
+    def __get_url(self, article_info):
+        return article_info['data-url']
 
     def scrap_article(self, article_url):
         """Scrap a single article"""

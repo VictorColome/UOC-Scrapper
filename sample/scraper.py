@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
 from sample.article import Article
+from sample.data_exporter import DataExporter
 from sample.feature import Feature
 from sample.feature import Specification
-from sample.data_exporter import DataExporter
 
 
 class Category:
@@ -35,6 +36,7 @@ class Scraper:
     def __init__(self):
         """Return a Scraper with pccomponentes' host"""
         self.host = 'https://www.pccomponentes.com'
+        self.ua = UserAgent().chrome
 
     def scrap_all(self):
         """Scrap every article from every category"""
@@ -54,8 +56,8 @@ class Scraper:
     # DONE: Carlos
     def scrap_categories(self):
         """Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml"""
-        page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml")
-        soup = BeautifulSoup(page.text, "html.parser")
+        page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml", headers={'User-Agent': self.ua})
+        soup = BeautifulSoup(page.text, features="html.parser")
         cat_list = soup.find_all('url')
         categorias = []
         for cat in cat_list:
@@ -72,18 +74,17 @@ class Scraper:
     # TODO: Victor
     def scrap_category(self, category_url):
         """Scrap a given category"""
-        # https://www.pccomponentes.com/smartphone-moviles?page=41 (971 articulos / 24 por página)
-        page = requests.get(category_url.loc + "?page=1")
-        i = 1
+        i = 2  # 0 and 1 appears in robots.txt as disallowed
+        page = requests.get(category_url.loc + "?page=" + str(i), headers={'User-Agent': self.ua})
         articles = []
         while page.status_code != 404:
             soup = BeautifulSoup(page.content, features="html.parser")
             articles = articles + list(map(self.__get_url, soup.findAll("div", {"class": "js-article-info"})))
             i += 1
             # TODO Delete or change ?page functionality
-            if i == 2:
+            if i == 3:
                 break
-            page = requests.get(category_url + "?page=" + str(i))
+            page = requests.get(category_url + "?page=" + str(i), headers={'User-Agent': self.ua})
         return articles
 
     def __get_url(self, article_info):
@@ -92,13 +93,13 @@ class Scraper:
     def scrap_article(self, article_url):
         """Scrap a single article"""
         article = Article()
-        page = requests.get(article_url)
+        page = requests.get(article_url, headers={'User-Agent': self.ua})
         soup = BeautifulSoup(page.content, features="html.parser")
         self.__scrap_article_attributes(article, soup)
         self.__scrap_article_specifications(article, soup)
         return article
 
-    # TODO: Victor
+    # DONE: Victor
     def __scrap_article_attributes(self, article, soup):
         """Scrap article's attributes"""
         article.name = soup.find("div", {"class": "articulo"}).find('strong').string

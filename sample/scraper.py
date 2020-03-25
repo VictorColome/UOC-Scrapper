@@ -2,10 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 from sample.article import Article
+from sample.feature import Feature
+from sample.feature import Specification
 from sample.data_exporter import DataExporter
 
 
-class Categoria:
+class Category:
     """
     Class containing the information regarding categories of items
     """
@@ -15,7 +17,10 @@ class Categoria:
     priority = ""
 
     def __str__(self):
-        return "\nloc="+self.loc+"\nlastmod="+self.lastmod+"\nchangefreq="+self.changefreq+"\npriority="+self.priority
+        return "\nloc="+self.loc+\
+               "\nlastmod="+self.lastmod+\
+               "\nchangefreq="+self.changefreq+\
+               "\npriority="+self.priority
 
 
 class Scraper:
@@ -36,8 +41,8 @@ class Scraper:
         articles = []
         categories = self.scrap_categories()
 
-        for x in range(len(categories)):
-            print(categories[x])
+        # for x in range(len(categories)):
+        #     print(categories[x])
 
         for category in categories:
             articles_to_scrap = self.scrap_category(category)
@@ -46,7 +51,7 @@ class Scraper:
             data_exporter = DataExporter()
             data_exporter.export_articles_to_csv(articles)
 
-    # TODO: Carlos
+    # DONE: Carlos
     def scrap_categories(self):
         """Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml"""
         page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml")
@@ -54,21 +59,21 @@ class Scraper:
         cat_list = soup.find_all('url')
         categorias = []
         for cat in cat_list:
-            newcat = Categoria()
+            newcat = Category()
             newcat.loc = cat.find_all('loc')[0].get_text()
             newcat.lastmod = cat.find_all('lastmod')[0].get_text()
             newcat.changefreq = cat.find_all('changefreq')[0].get_text()
             newcat.priority = cat.find_all('priority')[0].get_text()
             categorias.append(newcat)
 
-        print(categorias)
+        #print(categorias)
         return categorias
 
     # TODO: Victor
     def scrap_category(self, category_url):
         """Scrap a given category"""
         # https://www.pccomponentes.com/smartphone-moviles?page=41 (971 articulos / 24 por página)
-        page = requests.get(category_url + "?page=1")
+        page = requests.get(category_url.loc + "?page=1")
         i = 1
         articles = []
         while page.status_code != 404:
@@ -108,5 +113,27 @@ class Scraper:
     def __scrap_article_specifications(self, article, soup):
 
         """Scrap article's specifications and features"""
-        article.specifications = soup.find("div", {"id": "ficha-producto-caracteristicas"}).string
-        pass
+        featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})
+        feat = Feature()
+
+        listacar = featitem.find_all('ul')[0]
+        listaesp = featitem.find_all('ul')[1]
+
+        feat.characteristics = []
+        for carac in listacar:
+            feat.characteristics.append(carac.text)
+
+        feat.specifications = []
+        # TODO Aquí me llego
+        for espec in listaesp:
+            for spec in espec:
+                spec_ind = Specification()
+                spec_ind.name = spec[0]
+                spec_ind.specs = []
+                for inner_spec in spec[1]:
+                    spec_ind.specs.append(inner_spec.text())
+                feat.specifications.append(spec_ind)
+
+        feat.manufacturer_url = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"}).find("a").text()
+
+        article.features = feat

@@ -1,4 +1,5 @@
 import requests
+import traceback
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
@@ -41,17 +42,16 @@ class Scraper:
     def scrap_all(self):
         """Scrap every article from every category"""
         articles = []
-        categories = self.scrap_categories()[:2]   # TODO: Para limitar el alcance durante las pruebas
+        categories = self.scrap_categories()#[:2]   # TODO: Para limitar el alcance durante las pruebas
 
         # for x in range(len(categories)):
         #     print(categories[x])
 
         for category in categories:
-            articles_to_scrap = self.scrap_category(category)[:3]   # TODO: Para limitar el alcance durante las pruebas
+            articles_to_scrap = self.scrap_category(category)#[:3]   # TODO: Para limitar el alcance durante las pruebas
             for article_to_scrap in articles_to_scrap:
                 articles.append(self.scrap_article(self.host + article_to_scrap))
             data_exporter = DataExporter()
-            print(articles[0])
             data_exporter.export_articles_to_csv(articles)
 
     # DONE: Carlos
@@ -134,14 +134,20 @@ class Scraper:
                     if i == 0:
                         spec_ind.name = str(especgrp)
                     else:
-                        for especitem in especgrp:
-                            spec_ind.specs.append(str(especitem.text))
+                        # Aquí diferenciamos entre los dos tipos de Artículo que hay en la web
+                        if (spec_ind.name.find("strong") is None):
+                            for especitem in especgrp:
+                                spec_ind.specs.append(str(especitem.text))
+                        else:
+                            spec_ind.specs.append(str(especgrp))
                 feat.specifications.append(spec_ind)
 
             capaurl = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"})
             if capaurl is not None:
-                feat.manufacturer_url = capaurl.find("a").next_element
-
+                feat.manufacturer_url = str(capaurl.find("a").next_element)
             article.features = feat
-        except:
+        except Exception as err:
+            # Hay unos pocos artículos que no son de tipo 1 ni 2: solo tienen una lista de espeficiaciones. Asi que
+            # simplemente los ignoramos (son unos 164 sobre un total de 2250 artículos: el 7%)
+            #traceback.print_tb(err.__traceback__)
             print("Error leyendo el artículo: " + article.name)

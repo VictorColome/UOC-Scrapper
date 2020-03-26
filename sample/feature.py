@@ -1,3 +1,4 @@
+import sys
 class Feature:
     """
     Class containing the information regarding features of an item
@@ -7,9 +8,13 @@ class Feature:
     manufacturer_url= ""
 
     def __str__(self):
-        return "\ncharacteristics="+"|".join([str(x) for x in self.characteristics])+\
-               "\nspecifications="+"|".join([str(x) for x in self.specifications])+\
-               "\nmanufacturer_url="+self.manufacturer_url
+        try:
+            return "\ncharacteristics="+"|".join([str(x) for x in self.characteristics])+\
+                   "\nspecifications="+"|".join([str(x) for x in self.specifications])+\
+                   "\nmanufacturer_url="+self.manufacturer_url
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
+            return ""
 
 class Specification:
     """

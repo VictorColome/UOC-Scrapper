@@ -5,9 +5,14 @@ from sample import Scraper
 
 class TestScraper(unittest.TestCase):
 
-    # TODO: Carlos
+    # DONE: Carlos
     def test_scrap_categories(self):
-        pass
+        scraper = Scraper()
+        categorias = scraper.scrap_categories()
+        assert categorias is not None
+        for a in categorias:
+            assert a is not None
+            print(a)
 
     # TODO: Victor
     def test_scrap_category(self):

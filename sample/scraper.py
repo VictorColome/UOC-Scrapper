@@ -111,7 +111,7 @@ class Scraper:
         article.no_iva = soup.find("b", {"class": "no-iva-base"}).string
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 
-    # TODO: Carlos
+    # DONE: Carlos
     def __scrap_article_specifications(self, article, soup):
 
         try:

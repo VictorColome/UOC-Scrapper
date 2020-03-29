@@ -12,7 +12,7 @@ class DataExporter:
     def export_attributes_to_csv(self, articles):
         Path("csv/").mkdir(parents=True, exist_ok=True)
         file_name = 'csv/articles_attributes_' + str(date.today()).replace('-', '') + '.csv'
-        with open(file_name, mode='w', encoding="utf-8") as articles_file:
+        with open(file_name, mode='w', encoding="utf-8", newline='\n') as articles_file:
             csv_writer = csv.writer(articles_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             row = []
             for article in articles:
@@ -27,7 +27,7 @@ class DataExporter:
     def export_specifications_to_csv(self, articles):
         Path("csv/").mkdir(parents=True, exist_ok=True)
         file_name = 'csv/articles_specifications_' + str(date.today()).replace('-', '') + '.csv'
-        with open(file_name, mode='w', encoding="utf-8") as articles_file:
+        with open(file_name, mode='w', encoding="utf-8", newline='\n') as articles_file:
             csv_writer = csv.writer(articles_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             row = []
             for article in articles:

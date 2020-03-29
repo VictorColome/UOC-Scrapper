@@ -13,12 +13,16 @@ class TestDataExporter(unittest.TestCase):
     def test_export_attributes_to_csv(self):
         data_exporter = DataExporter()
         articles = self.__generate_dummy_articles()
-        data_exporter.export_attributes_to_csv(articles)
+        data_exporter.export_attributes_to_csv('category_test', articles)
         self.__read_attributes_csv()
 
     # TODO: Carlos
     def test_export_specifications_to_csv(self):
         pass
+
+    def test_import_attributes_from_csv(self):
+        data_exporter = DataExporter()
+        data_exporter.import_attributes_from_csv('../sample/csv/placas-base_articles_attributes_20200329.csv')
 
     def __generate_dummy_articles(self):
         articles = []
@@ -29,6 +33,7 @@ class TestDataExporter(unittest.TestCase):
             article.no_iva = 100 + random.randrange(100)
             article.pvp = 150 + random.randrange(100)
             article.price = 200 + random.randrange(100)
+            article.rating = 1 + random.randrange(5)
             articles.append(article)
         return articles
 

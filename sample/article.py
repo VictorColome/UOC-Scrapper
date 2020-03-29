@@ -1,22 +1,13 @@
 class Article:
 
-    def __init__(self):
-        self.name = None
-        self.price = 0.0
-        self.pvp = 0.0
-        self.discount = 0.0
-        self.no_iva = 0.0
-        self.rating = 0.0
-        self.features = None
-
-    def set_price(self, price, cents):
-        if cents is None:
-            self.price = float(price)
-        else:
-            if "," in cents:
-                self.price = float(price + cents.replace(',', '.'))
-            else:
-                self.price = float(price + cents)
+    def __init__(self, name=None, price=0.0, no_iva=0.0, pvp=0.0, discount=0.0, rating=0.0, features=None):
+        self.name = name
+        self.price = price
+        self.pvp = pvp
+        self.discount = discount
+        self.no_iva = no_iva
+        self.rating = rating
+        self.features = features
 
     def __str__(self):
         return "Article: " + self.name + \

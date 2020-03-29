@@ -12,15 +12,17 @@ class Category:
     """
     Class containing the information regarding categories of items
     """
+    name = ""
     loc = ""
     lastmod = ""
     changefreq = ""
     priority = ""
 
     def __str__(self):
-        return "\nloc="+self.loc+\
-               "\nlastmod="+self.lastmod+\
-               "\nchangefreq="+self.changefreq+\
+        return "\nname="+self.name + \
+               "\nloc="+self.loc + \
+               "\nlastmod="+self.lastmod + \
+               "\nchangefreq="+self.changefreq + \
                "\npriority="+self.priority
 
 
@@ -47,13 +49,14 @@ class Scraper:
         #     print(categories[x])
 
         for category in categories:
-            articles_to_scrap = self.scrap_category(category.loc)#[:3]  # TODO: Para limitar el alcance durante las pruebas
+            articles_to_scrap = self.scrap_category(category.loc)
             if articles_to_scrap is None:  # If it is a parent category, skip it
+                print("Skip parent category " + category.loc)
                 continue
             for article_to_scrap in articles_to_scrap:
                 articles.append(self.scrap_article(self.host + article_to_scrap))
             data_exporter = DataExporter()
-            data_exporter.export_articles_to_csv(articles)
+            data_exporter.export_articles_to_csv(category.name, articles)
 
     # DONE: Carlos
     def scrap_categories(self):
@@ -68,14 +71,16 @@ class Scraper:
             newcat.lastmod = cat.find_all('lastmod')[0].get_text()
             newcat.changefreq = cat.find_all('changefreq')[0].get_text()
             newcat.priority = cat.find_all('priority')[0].get_text()
+            newcat.name = newcat.loc.split('/')[len(newcat.loc.split('/'))-1]
             categorias.append(newcat)
-
+            print('New category read ' + str(newcat))
         #print(categorias)
         return categorias
 
     # TODO: Victor
     def scrap_category(self, category_url):
         """Scrap a given category"""
+        print("Scrap category " + category_url)
         article_urls = []
         i = 2  # 0 and 1 appears in robots.txt as disallowed, so start at 2
         page = requests.get(category_url + "?page=" + str(i), headers={'User-Agent': self.ua})
@@ -114,7 +119,7 @@ class Scraper:
         article.price = price_info['data-price']
         article.pvp = price_info['data-baseprice']
         article.discount = price_info['data-discount']
-        article.no_iva = soup.find("b", {"class": "no-iva-base"}).string
+        article.no_iva = float(soup.find("b", {"class": "no-iva-base"}).string.replace(',', '.'))
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 
     # DONE: Carlos

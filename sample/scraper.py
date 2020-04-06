@@ -49,7 +49,10 @@ class Scraper:
     def scrap_all(self):
         """Scrap every article from every category"""
         articles = []
-        categories = self.scrap_categories()#[:2]  # TODO: Para limitar el alcance durante las pruebas
+
+        # In this exercise, we focus just on the first 2 categories. We will execute the scraper several
+        # days and produce an analysis over the evolution is these categories' variables over time
+        categories = self.scrap_categories()[:2]
 
         # for x in range(len(categories)):
         #     print(categories[x])

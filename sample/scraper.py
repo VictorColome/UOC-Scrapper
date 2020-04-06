@@ -50,9 +50,10 @@ class Scraper:
         """Scrap every article from every category"""
         articles = []
 
-        # In this exercise, we focus just on the first 2 categories. We will execute the scraper several
-        # days and produce an analysis over the evolution is these categories' variables over time
-        categories = self.scrap_categories()[:2]
+        # This variable stores the REAL categories (not parent) that we're going to process
+        numcattoevaluate = 0
+
+        categories = self.scrap_categories()
 
         # for x in range(len(categories)):
         #     print(categories[x])
@@ -62,10 +63,17 @@ class Scraper:
             if articles_to_scrap is None:  # If it is a parent category, skip it
                 print("Skip parent category " + category.loc)
                 continue
-            for article_to_scrap in articles_to_scrap:
-                articles.append(self.scrap_article(self.host + article_to_scrap))
-            data_exporter = DataExporter()
-            data_exporter.export_articles_to_csv(category.name, articles)
+
+            # In this exercise, we focus just on the first 2 categories. We will execute the scraper several
+            # days and produce an analysis over the evolution is these categories' variables over time
+            if numcattoevaluate < 2:
+                numcattoevaluate += 1
+                for article_to_scrap in articles_to_scrap:
+                    articles.append(self.scrap_article(self.host + article_to_scrap))
+                data_exporter = DataExporter()
+                data_exporter.export_articles_to_csv(category.name, articles)
+            else:
+                continue
 
     # DONE: Carlos
     def scrap_categories(self):

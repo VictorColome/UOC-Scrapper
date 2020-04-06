@@ -1,5 +1,11 @@
+"""
+Import zone
+"""
 import requests
+import traceback
+# Needed for parsing the website HTML
 from bs4 import BeautifulSoup
+# Used for mimicking the browser
 from fake_useragent import UserAgent
 
 from sample.article import Article
@@ -63,10 +69,13 @@ class Scraper:
         """Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml"""
         page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml", headers={'User-Agent': self.ua})
         soup = BeautifulSoup(page.text, features="html.parser")
+        # Let's find first all the URLs present in the page.
         cat_list = soup.find_all('url')
         categorias = []
         for cat in cat_list:
+            # We create the new Category...
             newcat = Category()
+            # ... and extract the basic data
             newcat.loc = cat.find_all('loc')[0].get_text()
             newcat.lastmod = cat.find_all('lastmod')[0].get_text()
             newcat.changefreq = cat.find_all('changefreq')[0].get_text()
@@ -124,17 +133,27 @@ class Scraper:
 
     # DONE: Carlos
     def __scrap_article_specifications(self, article, soup):
-        """Scrap article's specifications and features"""
+        """
+        Scrap article's specifications and features
+            Attributes:
+                article: An object representing the article where features will be added
+                soup: html page to be parsed
+
+        """
         try:
             featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})
             feat = Feature()
 
-            listacar = featitem.find_all('ul')[0]
-            listaesp = featitem.find_all('ul')[1]
+            if featitem.find('<h2>Características:</h2>') :
+                listacar = featitem.find_all('ul')[0]
+                listaesp = featitem.find_all('ul')[1]
+            else:
+                listaesp = featitem.find_all('ul')[0]
 
-            feat.characteristics = []
-            for carac in listacar:
-                feat.characteristics.append(carac.text)
+            if featitem.find('<h2>Características:</h2>') :
+                feat.characteristics = []
+                for carac in listacar:
+                    feat.characteristics.append(carac.text)
 
             feat.specifications = []
             for espec in listaesp:
@@ -144,20 +163,32 @@ class Scraper:
                     if i == 0:
                         spec_ind.name = str(especgrp)
                     else:
-                        # Aquí diferenciamos entre los dos tipos de Artículo que hay en la web
-                        if (spec_ind.name.find("strong") is None):
+                        # There are 2 main types of articles. This is where we differentiate between them
+                        if spec_ind.name.find("strong") == -1:
+                            # In one case, there is a list of specifications...
                             for especitem in especgrp:
-                                spec_ind.specs.append(str(especitem.text))
+                                try:
+                                    spec_ind.specs.append(str(especitem.text))
+                                except Exception as excecp:
+                                    spec_ind.specs.append(especitem)
+
                         else:
-                            spec_ind.specs.append(str(especgrp))
+                            # ... while in the other case there is just one item
+                            try:
+                                spec_ind.specs.append(str(especgrp.text))
+                            # In some cases, there is structure, just text storing this item
+                            except Exception as excecp:
+                                spec_ind.specs.append(especgrp)
+
                 feat.specifications.append(spec_ind)
 
+            # Here we get the URL to the item (if any)
             capaurl = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"})
-            if capaurl is not None:
-                feat.manufacturer_url = str(capaurl.find("a").next_element)
+            if capaurl != None:
+                feat.manufacturer_url = capaurl.find("a").get("href")
             article.features = feat
         except Exception as err:
-            # Hay unos pocos artículos que no son de tipo 1 ni 2: solo tienen una lista de espeficiaciones. Asi que
-            # simplemente los ignoramos (son unos 164 sobre un total de 2250 artículos: el 7%)
-            #traceback.print_tb(err.__traceback__)
+            # There are some articles that are of a third kind: they only contain a list of specifications.
+            # Since there are few (164 out of 2250: 7%), we just ignore them
+            traceback.print_tb(err.__traceback__)
             print("Error leyendo el artículo: " + article.name)

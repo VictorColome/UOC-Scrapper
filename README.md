@@ -70,14 +70,14 @@ Following data is retrieved (for every article):
 ### Project Structure
 The project has 3 main folders::
 * sample. It contains most of the classes needed for running the scraper. This is the core of the project. Content:
-** *csv*. This is where the generated CSV are stored.
-** *img*. This folder contains the images used during the development
-** __init__.py. This is the "launcher" of the project. This is the first to be executed and contains the initial call to the scraper so it can perform the scanning.
-** article.py. This file contains the definition of the "Article" class, which is the fundamental item of information for this project.
-** data_exporter.py. This file contains the utilities for saving the objects structure in CSV format, for articles and their structures within.
-** feature.py. This file contains the definition of "Feature" class, which is part of an article and stores both its characteristics and specifications. 
-** scraper.py. This is the main class of the project: it contains the definitions of Scraper and Category classes. The last one is a set of articles and the first one contains the methods in charge of scanning the website: first the XML sitemap_categories.xml is scanned and the list of categories retrieved. Then, iterating over that list, each one of the articles is scraped from the website. 
+    * *csv*. This is where the generated CSV are stored.
+    * *img*. This folder contains the images used during the development
+    * __init__.py. This is the "launcher" of the project. This is the first to be executed and contains the initial call to the scraper so it can perform the scanning.
+    * article.py. This file contains the definition of the "Article" class, which is the fundamental item of information for this project.
+    * data_exporter.py. This file contains the utilities for saving the objects structure in CSV format, for articles and their structures within.
+    * feature.py. This file contains the definition of "Feature" class, which is part of an article and stores both its characteristics and specifications. 
+    * scraper.py. This is the main class of the project: it contains the definitions of Scraper and Category classes. The last one is a set of articles and the first one contains the methods in charge of scanning the website: first the XML sitemap_categories.xml is scanned and the list of categories retrieved. Then, iterating over that list, each one of the articles is scraped from the website. 
 * test. It contains 2 files:
-** test_data_exporter.py. This file generates dummy objects that can be used to test the classes of sample folder for saving data into CSV files.
-** test_scraper.py. This file allows the testing of sample folder classes
+    * test_data_exporter.py. This file generates dummy objects that can be used to test the classes of sample folder for saving data into CSV files.
+    * test_scraper.py. This file allows the testing of sample folder classes
 * [PONER AQUI LA DE LAS GRAFICAS]

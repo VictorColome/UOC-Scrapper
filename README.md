@@ -11,6 +11,7 @@ Las librerías requeridas para que el scraper funcione son BeautifulSoup y UserA
     pip install beautifulsoup4
     pip install fake-useragent
 
+[FALTA LA PARTE DE EJECUCIÓN]
 ### Descripción
 El scraper desarrollado se conecta a una web comercial de productos de electrónica de consumo y extrae de ella las categorías y artículos, junto con sus características y especificaciones. Dichos datos se almacenarán en formato CSV y se utilizarán más adelante para realizar un análisis estadístico sobre tendencias de algunas de ests características 
 
@@ -50,6 +51,7 @@ The required libraries for the scraper are BeautifulSoup and UserAgent. They can
     pip install lxml
     pip install beautifulsoup4
     pip install fake-useragent
+[FALTA LA PARTE DE EJECUCIÓN]
 
 ### Description
 This scraper retrieves all the articles from a well-known electronic retail website, alongwith their characteristics and features. These data are stored in CSV format and used later on for estatistical analysis purposes, aimed to discover temporal trends in the data.

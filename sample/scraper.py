@@ -50,9 +50,6 @@ class Scraper:
         """Scrap every article from every category"""
         articles = []
 
-        # This variable stores the REAL categories (not parent) that we're going to process
-        numcattoevaluate = 0
-
         categories = self.scrap_categories()
 
         # for x in range(len(categories)):
@@ -64,16 +61,11 @@ class Scraper:
                 print("Skip parent category " + category.loc)
                 continue
 
-            # In this exercise, we focus just on the first 2 categories. We will execute the scraper several
-            # days and produce an analysis over the evolution is these categories' variables over time
-            if numcattoevaluate < 2:
-                numcattoevaluate += 1
-                for article_to_scrap in articles_to_scrap:
-                    articles.append(self.scrap_article(self.host + article_to_scrap))
-                data_exporter = DataExporter()
-                data_exporter.export_articles_to_csv(category.name, articles)
-            else:
-                continue
+            print("Processing category " + category.loc)
+            for article_to_scrap in articles_to_scrap:
+                articles.append(self.scrap_article(self.host + article_to_scrap))
+            data_exporter = DataExporter()
+            data_exporter.export_articles_to_csv(category.name, articles)
 
     # DONE: Carlos
     def scrap_categories(self):
@@ -136,9 +128,9 @@ class Scraper:
         """Scrap article's attributes"""
         article.name = soup.find("div", {"class": "articulo"}).find('strong').string
         price_info = soup.find("div", {"id": "precio-main"})
-        article.price = price_info['data-price']
-        article.pvp = price_info['data-baseprice']
-        article.discount = price_info['data-discount']
+        article.price = '' if price_info is None else price_info['data-price']
+        article.pvp = '' if price_info is None else price_info['data-baseprice']
+        article.discount = '' if price_info is None else price_info['data-discount']
         article.no_iva = float(soup.find("b", {"class": "no-iva-base"}).string.replace(',', '.'))
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 

@@ -29,16 +29,16 @@ Por cada artículo se almacenan los siguientes datos:
 ### Estructura del código
 Dentro del proyecto hay 3 carpetas principales:
 * sample. Contiene la mayoría de las clases necesarias para el scraper. Es el core del proyecto. Contenido:
- * *csv*. Este directorio es donde se irán guardando los CSVs generados por el scraper
- * *img*. Este directorio contiene las imágenes utilizadas durante el desarrollo del scraper
- * __init__.py Este fichero es el "lanzador" del proyecto, y el que se ejecuta en primer lugar. Contiene la llamada inicial al scraper para que empiece al escaneo.
- * article.py. Este fichero contiene la definición de la clase Article, la cual es el ítem fundamental de información de esta práctica
- * data_exporter.py. Este fichero contiene las utilidades de guardado de la estructura de objetos en ficheros CSV, tanto para artículos como para sus objetos contenidos
- * feature.py Este fichero contiene la definición de la clase Feature, la cual forma parte de un Article y almacena las características y especificaciones de cada artículo
- * scraper.py. Esta es la clase principal del proyecto: contiene las definiciones de la clase Scraper y la clase Categoría. Esta última es una agrupación de artículos y la primera contiene los métodos que escanean el sitio web: primero se escanea el XML sitemap_categories para averiguar las categorías y después se va recorriendo cada categoría escaneando los artículos que la conforman. 
+    * *csv*. Este directorio es donde se irán guardando los CSVs generados por el scraper
+    * *img*. Este directorio contiene las imágenes utilizadas durante el desarrollo del scraper
+    * __init__.py Este fichero es el "lanzador" del proyecto, y el que se ejecuta en primer lugar. Contiene la llamada inicial al scraper para que empiece al escaneo.
+    * article.py. Este fichero contiene la definición de la clase Article, la cual es el ítem fundamental de información de esta práctica
+    * data_exporter.py. Este fichero contiene las utilidades de guardado de la estructura de objetos en ficheros CSV, tanto para artículos como para sus objetos contenidos
+    * feature.py Este fichero contiene la definición de la clase Feature, la cual forma parte de un Article y almacena las características y especificaciones de cada artículo
+    * scraper.py. Esta es la clase principal del proyecto: contiene las definiciones de la clase Scraper y la clase Categoría. Esta última es una agrupación de artículos y la primera contiene los métodos que escanean el sitio web: primero se escanea el XML sitemap_categories para averiguar las categorías y después se va recorriendo cada categoría escaneando los artículos que la conforman. 
 * test. Contiene 2 ficheros:
- * test_data_exporter.py. Este fichero genera objetos dummy para poder probar el guardado a disco de las clases descritas en la carpeta sample
- * test_scraper.py. Este fichero permite hacer pruebas sobre las clases de sample
+    * test_data_exporter.py. Este fichero genera objetos dummy para poder probar el guardado a disco de las clases descritas en la carpeta sample
+    * test_scraper.py. Este fichero permite hacer pruebas sobre las clases de sample
 * [PONER AQUI LA DE LAS GRAFICAS]
 
 ## Inglés

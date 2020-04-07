@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -5,6 +6,12 @@ import pandas as pd
 
 # Constants
 CSV_DIRECTORY = '../sample/csv/'
+
+
+def store_image(img_name):
+    if os.path.isfile(img_name):
+        os.remove(img_name)  # Opt.: os.system("rm "+strFile)
+    plt.savefig(img_name)
 
 
 def box_plot_category(filename):
@@ -17,7 +24,8 @@ def box_plot_category(filename):
     df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=["Name", "Price", "No IVA", "PVP", "Discount", "Rating"])
     print(df.describe())
     df.plot.box(grid='True')
-    plt.savefig('img/bp_{}.png'.format(category_name))
+    plt.title(category_name + ' boxplot')
+    store_image('img/bp_{}.png'.format(category_name))
 
 
 def historical_plot_category(category_name, init_date, end_date):

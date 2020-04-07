@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -31,17 +32,42 @@ def box_plot_category(filename):
 
 def historical_plot_category(category_name, init_date, end_date):
     Path("img/").mkdir(parents=True, exist_ok=True)
-    prices = []
+    """
+    df_prices = pd.DataFrame(columns=['Name'])
     for date in range(init_date, end_date + 1):
         filename = category_name + '_articles_attributes_' + str(date) + '.csv'
         df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
-        prices.append(df['Price'])
-    pass
+        df1 = df[['Name', 'Price']]
+        df1 = df1.rename(columns={'Price': str(date)})
+        df_prices = df_prices.merge(df1, on='Name', how='outer')
+    df_prices.set_index('Name', inplace=True, drop=True)
+    print(df_prices)
+    """
+    dfs = []
+    col_2_analyse = 'Rating'  # 'Price'
+    for date in range(init_date, end_date + 1):
+        str_date = str(date)
+        df = pd.read_csv(CSV_DIRECTORY + category_name + '_articles_attributes_' + str_date + '.csv',
+                       header=None, names=CSV_COLS)
+        df['Date'] = datetime(year=int(str_date[0:4]), month=int(str_date[4:6]), day=int(str_date[6:8]))
+        df['Date'] = pd.to_datetime(df['Date'])
+        dfs.append(df.loc[:, ['Name', col_2_analyse, 'Date']])
+    df_prices = pd.concat(dfs)
+    print(df_prices)
+
+    print("Start ploting, might take a while...")
+    fig, ax = plt.subplots(1, 1)
+    df_prices.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
+    ax.get_legend().remove()
+    plt.xlabel('Date')
+    plt.ylabel(col_2_analyse)
+    store_image('img/historical_{}.png'.format(category_name))
+    print("Done")
 
 
 if __name__ == '__main__':
     # Se podría añadir una lista de categorías en un bucle simplemente
     category_name = 'adaptador-usb'  # Por ejemplo
     filename = 'adaptador-usb_articles_attributes_20200406.csv'  # Por ejemplo
-    box_plot_category(filename)  # Cambiar por nombre del csv
-    #historical_plot_category(category_name, 20200406, 20200407)
+    #box_plot_category(filename)  # Cambiar por nombre del csv
+    historical_plot_category(category_name, 20200406, 20200407)

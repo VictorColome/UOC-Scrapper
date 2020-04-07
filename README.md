@@ -26,7 +26,7 @@ Por cada artículo se almacenan los siguientes datos:
 7. features
 
 ## Inglés
-Practise 1 of UOC subject "Tipología y ciclo de vida de los datos" by students Carlos Marcos y Víctor Colomé
+Practise 1 of UOC subject "Tipología y ciclo de vida de los datos" by students Carlos Marcos and Víctor Colomé
 
 ### Installation and Execution
 The required libraries for the scraper are BeautifulSoup and UserAgent. They can be installed with the following commands:

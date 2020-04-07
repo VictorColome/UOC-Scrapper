@@ -2,9 +2,6 @@ import csv
 from datetime import date
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import pandas as pd
-
 
 class DataExporter:
 
@@ -38,11 +35,3 @@ class DataExporter:
                 row.append(article.features)
                 csv_writer.writerow(row)
                 row = []
-
-    # TODO: Improve. Create new class?
-    def import_attributes_from_csv(self, filename):
-        Path("img/").mkdir(parents=True, exist_ok=True)
-        df = pd.read_csv(filename, header=None, names=["Name", "Price", "No IVA", "PVP", "Discount", "Rating"])
-        print(df.describe())
-        df.plot.box(grid='True')
-        plt.savefig('img/foo.png')

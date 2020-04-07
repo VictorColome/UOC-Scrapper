@@ -6,8 +6,11 @@
 tests/csv
 tests/img
 
-# Results folders
+# Sample folders
 sample/csv
+
+# Visualization folders
+visualization/img
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm

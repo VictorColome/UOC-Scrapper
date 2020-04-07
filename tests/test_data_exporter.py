@@ -20,10 +20,6 @@ class TestDataExporter(unittest.TestCase):
     def test_export_specifications_to_csv(self):
         pass
 
-    def test_import_attributes_from_csv(self):
-        data_exporter = DataExporter()
-        data_exporter.import_attributes_from_csv('../sample/csv/placas-base_articles_attributes_20200329.csv')
-
     def __generate_dummy_articles(self):
         articles = []
         for i in range(10):

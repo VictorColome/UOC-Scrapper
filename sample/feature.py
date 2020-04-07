@@ -17,7 +17,7 @@ class Feature:
         except:
             print("Unexpected error:", sys.exc_info()[0])
             return ""
-3
+
 
 class Specification:
     """

@@ -6,6 +6,7 @@ import pandas as pd
 
 # Constants
 CSV_DIRECTORY = '../sample/csv/'
+CSV_COLS = ["Name", "Price", "No IVA", "PVP", "Discount", "Rating"]
 
 
 def store_image(img_name):
@@ -21,7 +22,7 @@ def box_plot_category(filename):
     """
     Path("img/").mkdir(parents=True, exist_ok=True)
     category_name = filename.split('_')[0]
-    df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=["Name", "Price", "No IVA", "PVP", "Discount", "Rating"])
+    df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
     print(df.describe())
     df.plot.box(grid='True')
     plt.title(category_name + ' boxplot')
@@ -33,7 +34,7 @@ def historical_plot_category(category_name, init_date, end_date):
     prices = []
     for date in range(init_date, end_date + 1):
         filename = category_name + '_articles_attributes_' + str(date) + '.csv'
-        df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=["Name", "Price", "No IVA", "PVP", "Discount", "Rating"])
+        df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
         prices.append(df['Price'])
     pass
 

@@ -1,6 +1,19 @@
 class Article:
+    """
+    Class containing all the article's information.
+    """
 
     def __init__(self, name=None, price=0.0, no_iva=0.0, pvp=0.0, discount=0.0, rating=0.0, features=None):
+        """
+        Instantiate an Article
+        :param name: name of the article
+        :param price: price of the article
+        :param no_iva: price without IVA of the article
+        :param pvp: PVP price of the article
+        :param discount: discount applied
+        :param rating: rating of the article
+        :param features: list of article's features: see feature.py
+        """
         self.name = name
         self.price = price
         self.pvp = pvp

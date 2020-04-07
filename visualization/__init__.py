@@ -24,7 +24,7 @@ def box_plot_category(filename):
     category_name = filename.split('_')[0]
     df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
     print(df.describe())
-    df.plot.box(grid='True')
+    df.plot.box(grid=True)
     plt.title(category_name + ' boxplot')
     store_image('img/bp_{}.png'.format(category_name))
 

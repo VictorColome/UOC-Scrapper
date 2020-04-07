@@ -1,8 +1,9 @@
 """
 Import zone
 """
-import requests
 import traceback
+
+import requests
 # Needed for parsing the website HTML
 from bs4 import BeautifulSoup
 # Used for mimicking the browser
@@ -69,12 +70,15 @@ class Scraper:
 
     # DONE: Carlos
     def scrap_categories(self):
-        """Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml"""
+        """
+        Scrap all categories from the sitemap https://www.pccomponentes.com/sitemap_categories.xml
+        :return: list of categories
+        """
         page = requests.get("https://www.pccomponentes.com/sitemap_categories.xml", headers={'User-Agent': self.ua})
         soup = BeautifulSoup(page.text, features="html.parser")
         # Let's find first all the URLs present in the page.
         cat_list = soup.find_all('url')
-        categorias = []
+        categories = []
         for cat in cat_list:
             # We create the new Category...
             newcat = Category()
@@ -84,14 +88,18 @@ class Scraper:
             newcat.changefreq = cat.find_all('changefreq')[0].get_text()
             newcat.priority = cat.find_all('priority')[0].get_text()
             newcat.name = newcat.loc.split('/')[len(newcat.loc.split('/'))-1]
-            categorias.append(newcat)
+            categories.append(newcat)
             print('New category read ' + str(newcat))
         #print(categorias)
-        return categorias
+        return categories
 
     # TODO: Victor
     def scrap_category(self, category_url):
-        """Scrap a given category"""
+        """
+        Scrap a given category
+        :param category_url: category url from where to scrap
+        :return: list of articles
+        """
         print("Scrap category " + category_url)
         article_urls = []
         i = 2  # 0 and 1 appears in robots.txt as disallowed, so start at 2
@@ -111,11 +119,19 @@ class Scraper:
         return article_urls
 
     def __get_url(self, article_info):
-        """Lambda function to retrieve data-url"""
+        """
+        Lambda function to retrieve data-url from article's information
+        :param article_info: article's information
+        :return: 'data-url' content
+        """
         return article_info['data-url']
 
     def scrap_article(self, article_url):
-        """Scrap a single article"""
+        """
+        Scrap a single article
+        :param article_url: article url from where to scrap
+        :return: article
+        """
         article = Article()
         page = requests.get(article_url, headers={'User-Agent': self.ua})
         soup = BeautifulSoup(page.content, features="html.parser")
@@ -125,7 +141,11 @@ class Scraper:
 
     # DONE: Victor
     def __scrap_article_attributes(self, article, soup):
-        """Scrap article's attributes"""
+        """
+        Scrap article's attributes
+        :param article: article
+        :param soup: BeautifulSoup instantiation
+        """
         article.name = soup.find("div", {"class": "articulo"}).find('strong').string
         price_info = soup.find("div", {"id": "precio-main"})
         article.price = '' if price_info is None else price_info['data-price']
@@ -137,11 +157,9 @@ class Scraper:
     # DONE: Carlos
     def __scrap_article_specifications(self, article, soup):
         """
-        Scrap article's specifications and features
-            Attributes:
-                article: An object representing the article where features will be added
-                soup: html page to be parsed
-
+        Scrap article's specifications
+        :param article: article
+        :param soup: BeautifulSoup instantiation
         """
         try:
             featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})

@@ -11,6 +11,9 @@ class TestDataExporter(unittest.TestCase):
 
     # TODO: Victor
     def test_export_attributes_to_csv(self):
+        """
+        Test export attributes to csv
+        """
         data_exporter = DataExporter()
         articles = self.__generate_dummy_articles()
         data_exporter.export_attributes_to_csv('category_test', articles)
@@ -21,6 +24,10 @@ class TestDataExporter(unittest.TestCase):
         pass
 
     def __generate_dummy_articles(self):
+        """
+        Generate 10 dummy articles
+        :return: dummy articles
+        """
         articles = []
         for i in range(10):
             article = Article()
@@ -34,7 +41,10 @@ class TestDataExporter(unittest.TestCase):
         return articles
 
     def __read_attributes_csv(self):
-        file_name = 'csv/articles_attributes_' + str(date.today()).replace('-', '') + '.csv'
+        """
+        Read today's test CSV content
+        """
+        file_name = 'csv/category_test_articles_attributes_' + str(date.today()).replace('-', '') + '.csv'
         with open(file_name) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
 

@@ -151,7 +151,8 @@ class Scraper:
         article.price = '' if price_info is None else price_info['data-price']
         article.pvp = '' if price_info is None else price_info['data-baseprice']
         article.discount = '' if price_info is None else price_info['data-discount']
-        article.no_iva = float(soup.find("b", {"class": "no-iva-base"}).string.replace(',', '.'))
+        noiva = soup.find("b", {"class": "no-iva-base"})
+        article.no_iva = '' if noiva is None else float(noiva.string.replace(',', '.'))
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 
     # DONE: Carlos

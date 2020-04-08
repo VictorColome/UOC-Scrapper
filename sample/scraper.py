@@ -1,6 +1,3 @@
-"""
-Import zone
-"""
 import traceback
 
 import requests
@@ -26,11 +23,11 @@ class Category:
     priority = ""
 
     def __str__(self):
-        return "\nname="+self.name + \
-               "\nloc="+self.loc + \
-               "\nlastmod="+self.lastmod + \
-               "\nchangefreq="+self.changefreq + \
-               "\npriority="+self.priority
+        return "\nname=" + self.name + \
+               "\nloc=" + self.loc + \
+               "\nlastmod=" + self.lastmod + \
+               "\nchangefreq=" + self.changefreq + \
+               "\npriority=" + self.priority
 
 
 class Scraper:
@@ -87,13 +84,13 @@ class Scraper:
             newcat.lastmod = cat.find_all('lastmod')[0].get_text()
             newcat.changefreq = cat.find_all('changefreq')[0].get_text()
             newcat.priority = cat.find_all('priority')[0].get_text()
-            newcat.name = newcat.loc.split('/')[len(newcat.loc.split('/'))-1]
+            newcat.name = newcat.loc.split('/')[len(newcat.loc.split('/')) - 1]
             categories.append(newcat)
             print('New category read ' + str(newcat))
-        #print(categorias)
+        # print(categorias)
         return categories
 
-    # TODO: Victor
+    # DONE: Victor
     def scrap_category(self, category_url):
         """
         Scrap a given category
@@ -151,8 +148,8 @@ class Scraper:
         article.price = '' if price_info is None else price_info['data-price']
         article.pvp = '' if price_info is None else price_info['data-baseprice']
         article.discount = '' if price_info is None else price_info['data-discount']
-        noiva = soup.find("b", {"class": "no-iva-base"})
-        article.no_iva = '' if noiva is None else float(noiva.string.replace(',', '.'))
+        no_iva = soup.find("b", {"class": "no-iva-base"})
+        article.no_iva = '' if no_iva is None else float(no_iva.string.replace(',', '.'))
         article.rating = float(soup.find("div", {"class": "rating-stars"})['style'].split(':')[1].split('%')[0])
 
     # DONE: Carlos
@@ -163,51 +160,50 @@ class Scraper:
         :param soup: BeautifulSoup instantiation
         """
         try:
-            featitem = soup.find("div", {"id": "ficha-producto-caracteristicas"})
+            feat_item = soup.find("div", {"id": "ficha-producto-caracteristicas"})
             feat = Feature()
 
-            if featitem.find('<h2>Características:</h2>') :
-                listacar = featitem.find_all('ul')[0]
-                listaesp = featitem.find_all('ul')[1]
+            if feat_item.find('<h2>Características:</h2>'):
+                feat_list = feat_item.find_all('ul')[0]
+                spec_list = feat_item.find_all('ul')[1]
             else:
-                listaesp = featitem.find_all('ul')[0]
+                spec_list = feat_item.find_all('ul')[0]
 
-            if featitem.find('<h2>Características:</h2>') :
+            if feat_item.find('<h2>Características:</h2>'):
                 feat.characteristics = []
-                for carac in listacar:
-                    feat.characteristics.append(carac.text)
+                for feat in feat_list:
+                    feat.characteristics.append(feat.text)
 
             feat.specifications = []
-            for espec in listaesp:
+            for spec in spec_list:
                 spec_ind = Specification()
                 spec_ind.specs = []
-                for i, especgrp in enumerate(espec):
+                for i, spec_grp in enumerate(spec):
                     if i == 0:
-                        spec_ind.name = str(especgrp)
+                        spec_ind.name = str(spec_grp)
                     else:
                         # There are 2 main types of articles. This is where we differentiate between them
                         if spec_ind.name.find("strong") == -1:
                             # In one case, there is a list of specifications...
-                            for especitem in especgrp:
+                            for spec_item in spec_grp:
                                 try:
-                                    spec_ind.specs.append(str(especitem.text))
-                                except Exception as excecp:
-                                    spec_ind.specs.append(especitem)
-
+                                    spec_ind.specs.append(str(spec_item.text))
+                                except Exception as ex:
+                                    spec_ind.specs.append(spec_item)
                         else:
                             # ... while in the other case there is just one item
                             try:
-                                spec_ind.specs.append(str(especgrp.text))
+                                spec_ind.specs.append(str(spec_grp.text))
                             # In some cases, there is structure, just text storing this item
-                            except Exception as excecp:
-                                spec_ind.specs.append(especgrp)
+                            except Exception as ex:
+                                spec_ind.specs.append(spec_grp)
 
                 feat.specifications.append(spec_ind)
 
             # Here we get the URL to the item (if any)
-            capaurl = featitem.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"})
-            if capaurl != None:
-                feat.manufacturer_url = capaurl.find("a").get("href")
+            url = feat_item.find("div", {"class": "ficha-producto-caracteristicas__url-fabricante m-t-2"})
+            if url is not None:
+                feat.manufacturer_url = url.find("a").get("href")
             article.features = feat
         except Exception as err:
             # There are some articles that are of a third kind: they only contain a list of specifications.

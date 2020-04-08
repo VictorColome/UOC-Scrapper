@@ -9,7 +9,10 @@ directorio raíz:
     
     pip install -r requirements.txt
 
-[FALTA LA PARTE DE EJECUCIÓN]
+Para ejecutar el proyecto, simplemente hay que correr el fichero \_\_init__.py de cualquier carpeta, con el
+siguiente comando (estando dentro de la carpeta con el código a ejecutar):
+
+    python __init__.py
 
 ### Descripción
 El scraper desarrollado se conecta a una web comercial de productos de electrónica de consumo y extrae de ella las 
@@ -32,7 +35,7 @@ Dentro del proyecto hay 3 carpetas principales:
 * sample. Contiene la mayoría de las clases necesarias para el scraper. Es el core del proyecto. Contenido:
     * *csv*. Este directorio es donde se irán guardando los CSVs generados por el scraper
     * *img*. Este directorio contiene las imágenes utilizadas durante el desarrollo del scraper
-    * __init__.py Este fichero es el "lanzador" del proyecto, y el que se ejecuta en primer lugar. Contiene la llamada 
+    * \_\_init__.py Este fichero es el "lanzador" del proyecto, y el que se ejecuta en primer lugar. Contiene la llamada 
     inicial al scraper para que empiece al escaneo.
     * article.py. Este fichero contiene la definición de la clase Article, la cual es el ítem fundamental de información
      de esta práctica
@@ -48,7 +51,12 @@ Dentro del proyecto hay 3 carpetas principales:
     * test_data_exporter.py. Este fichero genera objetos dummy para poder probar el guardado a disco de las clases 
     descritas en la carpeta sample
     * test_scraper.py. Este fichero permite hacer pruebas sobre las clases de sample
-* [PONER AQUI LA DE LAS GRAFICAS]
+* visualization. Tiene un único fichero:
+    * \_\_init__.py Este fichero es el "lanzador" de la parte de las visualizaciones, encargado de crear los gráficos
+    a partir de los CSV extraídos por el scraper.
+* publishing. Tiene un único fichero:
+    * \_\_init__.py Este fichero es el "lanzador" de la parte de la publicación en Zenodo del dataset, es donde se
+    publica el CSV creado en Zenodo como open data.
 
 ## English
 Practise 1 of UOC subject "Tipología y ciclo de vida de los datos" by students Carlos Marcos and Víctor Colomé
@@ -58,7 +66,10 @@ This project uses various libraries, which can be easily installed running the f
 
     pip install -r requirements.txt
     
-[FALTA LA PARTE DE EJECUCIÓN]
+To execute the project, simply run any \_\_init__.py file from any folder, executing the following command (being 
+inside the folder):
+
+    python __init__.py
 
 ### Description
 This scraper retrieves all the articles from a well-known electronic retail website, alongwith their characteristics and
@@ -97,4 +108,9 @@ The project has 3 main folders::
     * test_data_exporter.py. This file generates dummy objects that can be used to test the classes of sample folder for
      saving data into CSV files.
     * test_scraper.py. This file allows the testing of sample folder classes
-* [PONER AQUI LA DE LAS GRAFICAS]
+* visualization. It has only one file:
+    * \_\_init__.py This is the "launcher" of the visualizations, where the plots are created from the CSVs generated
+    by the scraper.
+* publishing. It has only one file:
+    * \_\_init__.py This is the "launcher" of the publishing of the dataset in Zenodo, where the CSV created is 
+    published in Zenodo as open data.

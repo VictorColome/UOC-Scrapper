@@ -69,5 +69,5 @@ if __name__ == '__main__':
     # Se podría añadir una lista de categorías en un bucle simplemente
     category_name = 'adaptador-usb'  # Por ejemplo
     filename = 'adaptador-usb_articles_attributes_20200406.csv'  # Por ejemplo
-    #box_plot_category(filename)  # Cambiar por nombre del csv
-    historical_plot_category(category_name, 20200406, 20200407)
+    box_plot_category(filename)
+    historical_plot_category(category_name, 20200406, 20200407)  # Elegir las fechas que se quieran

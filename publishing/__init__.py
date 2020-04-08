@@ -63,8 +63,8 @@ def uploadCSV(token, csvpathtofile):
             params={'access_token': token} )
         if r.status_code == 202:
             break
-    print(r.text)
-    print("File successfully published with link {}".format(r.json()["files"][0]["links"]["download"]))
+#    print(r.text)
+    print("File successfully published with link {}".format(r.json()["doi_url"]))
 
 if __name__ == '__main__':
     accesstoken = get_token()

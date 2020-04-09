@@ -23,7 +23,7 @@ def box_plot_category(filename):
     """
     Path("img/").mkdir(parents=True, exist_ok=True)
     category_name = filename.split('_')[0]
-    df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
+    df = pd.read_csv(CSV_DIRECTORY + filename, names=CSV_COLS)
     print(df.describe())
     df.plot.box(grid=True)
     plt.title(category_name + ' boxplot')
@@ -48,7 +48,7 @@ def historical_plot_category(category_name, init_date, end_date):
     for date in range(init_date, end_date + 1):
         str_date = str(date)
         df = pd.read_csv(CSV_DIRECTORY + category_name + '_articles_attributes_' + str_date + '.csv',
-                       header=None, names=CSV_COLS)
+                       names=CSV_COLS)
         df['Date'] = datetime(year=int(str_date[0:4]), month=int(str_date[4:6]), day=int(str_date[6:8]))
         df['Date'] = pd.to_datetime(df['Date'])
         dfs.append(df.loc[:, ['Name', col_2_analyse, 'Date']])

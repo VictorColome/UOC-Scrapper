@@ -44,7 +44,7 @@ def upload_csv(token, csv_path_to_file):
         'metadata': {
             'title': 'Catálogo público de productos de PC Componentes',
             'upload_type': 'poster',
-            'description': 'Este fichero contiene un ejemplo real del tipo de datos que se pueden encontrar al ejecutar el scraper',
+            'description': 'Este fichero contiene un ejemplo real del tipo de datos que se pueden encontrar al ejecutar el scraper. Si quiere conocer más a fondo el proceso mediante el que fueron recogidos, puede visitar la web del proyecto en https://github.com/VictorColome/UOC-Scrapper',
             'creators': [{'name': 'Víctor Colomé y Carlos Marcos',
                           'affiliation': 'UOC'}]
         }

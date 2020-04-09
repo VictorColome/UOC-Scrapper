@@ -92,7 +92,7 @@ The project has 3 main folders::
 * sample. It contains most of the classes needed for running the scraper. This is the core of the project. Content:
     * *csv*. This is where the generated CSV are stored.
     * *img*. This folder contains the images used during the development
-    * __init__.py. This is the "launcher" of the project. This is the first to be executed and contains the initial call
+    * \_\_init__.py. This is the "launcher" of the project. This is the first to be executed and contains the initial call
      to the scraper so it can perform the scanning.
     * article.py. This file contains the definition of the "Article" class, which is the fundamental item of information
      for this project.

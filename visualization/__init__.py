@@ -70,4 +70,4 @@ if __name__ == '__main__':
     category_name = 'adaptador-usb'  # Por ejemplo
     filename = 'adaptador-usb_articles_attributes_20200406.csv'  # Por ejemplo
     box_plot_category(filename)
-    historical_plot_category(category_name, 20200406, 20200407)  # Elegir las fechas que se quieran
+    historical_plot_category(category_name, 20200406, 20200409)  # Elegir las fechas que se quieran

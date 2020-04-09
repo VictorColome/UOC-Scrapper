@@ -42,7 +42,7 @@ def upload_csv(token, csv_path_to_file):
     print("\nUpdating metadata...")
     data = {
         'metadata': {
-            'title': 'Dataset de la práctica',
+            'title': 'Catálogo público de productos de PC Componentes',
             'upload_type': 'poster',
             'description': 'Este fichero contiene un ejemplo real del tipo de datos que se pueden encontrar al ejecutar el scraper',
             'creators': [{'name': 'Víctor Colomé y Carlos Marcos',

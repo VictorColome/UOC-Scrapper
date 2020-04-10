@@ -26,7 +26,7 @@ class DataExporter:
         file_name = 'csv/' + category_name + '_articles_attributes_' + str(date.today()).replace('-', '') + '.csv'
         with open(file_name, mode='w', encoding="utf-8", newline='\n') as articles_file:
             csv_writer = csv.writer(articles_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            csv_writer.writerow(["Nombre", "Precio", "IVA", "PVP", "Descuento", "Rating"])
+            csv_writer.writerow(["Name", "Price", "No IVA", "PVP", "Discount", "Rating"])
             row = []
             for article in articles:
                 row.append(article.name)

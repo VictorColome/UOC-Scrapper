@@ -23,7 +23,7 @@ def box_plot_category(filename):
     """
     Path("img/").mkdir(parents=True, exist_ok=True)
     category_name = filename.split('_')[0]
-    df = pd.read_csv(CSV_DIRECTORY + filename, names=CSV_COLS)
+    df = pd.read_csv(CSV_DIRECTORY + filename)
     print(df.describe())
     df.plot.box(grid=True)
     plt.title(category_name + ' boxplot')
@@ -47,14 +47,13 @@ def historical_plot_category(category_name, init_date, end_date):
     col_2_analyse = 'Rating'  # 'Price'
     for date in range(init_date, end_date + 1):
         str_date = str(date)
-        df = pd.read_csv(CSV_DIRECTORY + category_name + '_articles_attributes_' + str_date + '.csv',
-                       names=CSV_COLS)
+        df = pd.read_csv(CSV_DIRECTORY + category_name + '_articles_attributes_' + str_date + '.csv')
         df['Date'] = datetime(year=int(str_date[0:4]), month=int(str_date[4:6]), day=int(str_date[6:8]))
         df['Date'] = pd.to_datetime(df['Date'])
         dfs.append(df.loc[:, ['Name', col_2_analyse, 'Date']])
     df_prices = pd.concat(dfs)
     print(df_prices)
-
+    df_prices.to_csv('../sample/csv/all_data_'+str(init_date)+'_to_'+str(end_date)+'.csv', index=False, header=True)
     print("Start ploting, might take a while...")
     fig, ax = plt.subplots(1, 1)
     df_prices.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
@@ -70,4 +69,4 @@ if __name__ == '__main__':
     category_name = 'adaptador-usb'  # Por ejemplo
     filename = 'adaptador-usb_articles_attributes_20200406.csv'  # Por ejemplo
     box_plot_category(filename)
-    historical_plot_category(category_name, 20200406, 20200409)  # Elegir las fechas que se quieran
+    historical_plot_category(category_name, 20200406, 20200410)  # Elegir las fechas que se quieran

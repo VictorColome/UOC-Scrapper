@@ -30,7 +30,7 @@ Por cada artículo se almacenan los siguientes datos:
 6. rating
 7. features
 
-Los datos recogidos han sido publicados en Zenodo (https://zenodo.org/record/3746637#.Xo9fpMgzY2w) y están disponibles para su visualización/descarga siempre que su uso no vaya en contra de las disposiciones legales vigentes.
+Los datos recogidos han sido publicados en Zenodo (https://doi.org/10.5281/zenodo.3748696) y están disponibles para su visualización/descarga siempre que su uso no vaya en contra de las disposiciones legales vigentes.
 
 ### Estructura del código
 Dentro del proyecto hay 3 carpetas principales:
@@ -89,7 +89,7 @@ Following data is retrieved (for every article):
 6. rating
 7. features
 
-Retrieved data has been published in Zenodo (https://zenodo.org/record/3746637#.Xo9fpMgzY2w) and they are available for its visualization/download (always under applicable law)
+Retrieved data has been published in Zenodo (https://doi.org/10.5281/zenodo.3748696) and they are available for its visualization/download (always under applicable law)
 
 ### Project Structure
 The project has 3 main folders::

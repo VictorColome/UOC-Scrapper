@@ -55,13 +55,32 @@ def historical_plot_category(category_name, init_date, end_date):
     print(df_prices)
     df_prices.to_csv('../sample/csv/all_data_'+str(init_date)+'_to_'+str(end_date)+'.csv', index=False, header=True)
     print("Start ploting, might take a while...")
-    fig, ax = plt.subplots(1, 1)
-    df_prices.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
-    ax.get_legend().remove()
-    plt.xlabel('Date')
-    plt.ylabel(col_2_analyse)
-    store_image('img/historical_{}.png'.format(category_name))
+    names = []
+
+    # TODO Código para coger todos los productos que tienen col_2_analyse diferentes
+    for name in df_prices['Name'].unique():
+        if content_is_identical(df_prices.loc[df_prices['Name'] == name][col_2_analyse]):
+            names.append(name)
+            print(name)  # TODO borrar
+    print(df_prices[df_prices['Name'].isin(names)])
+
+    # TODO: Descomentar!!!
+    #fig, ax = plt.subplots(1, 1)
+    #df_prices.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
+    #ax.get_legend().remove()
+    #plt.xlabel('Date')
+    #plt.ylabel(col_2_analyse)
+    #store_image('img/historical_{}.png'.format(category_name))
     print("Done")
+
+
+def content_is_identical(iterator):
+    """
+    Checks whether the content of the given iterator is identical
+    :param iterator: iterator
+    :return: boolean
+    """
+    return len(set(iterator)) <= 1
 
 
 if __name__ == '__main__':

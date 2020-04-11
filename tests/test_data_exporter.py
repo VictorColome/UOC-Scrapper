@@ -9,7 +9,7 @@ from sample.data_exporter import DataExporter
 
 class TestDataExporter(unittest.TestCase):
 
-    # TODO: Victor
+    # DONE: Victor
     def test_export_attributes_to_csv(self):
         """
         Test export attributes to csv
@@ -18,10 +18,6 @@ class TestDataExporter(unittest.TestCase):
         articles = self.__generate_dummy_articles()
         data_exporter.export_attributes_to_csv('category_test', articles)
         self.__read_attributes_csv()
-
-    # TODO: Carlos
-    def test_export_specifications_to_csv(self):
-        pass
 
     def __generate_dummy_articles(self):
         """

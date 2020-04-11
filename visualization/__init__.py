@@ -12,6 +12,11 @@ CSV_COLS = ["Name", "Price", "No IVA", "PVP", "Discount", "Rating"]
 
 
 def store_image(img_name):
+    """
+    Store image
+    :param img_name:
+    :return:
+    """
     if os.path.isfile(img_name):
         os.remove(img_name)  # Opt.: os.system("rm "+strFile)
     plt.savefig(img_name)
@@ -31,21 +36,16 @@ def box_plot_category(filename):
     store_image('img/bp_{}.png'.format(category_name))
 
 
-def historical_plot_category(category_name, init_date, end_date):
+def historical_plot_category(category_name, col_2_analyse, init_date, end_date):
+    """
+    Create linear plot with the historical data of a given column
+    :param category_name: Category of the articles
+    :param col_2_analyse: Column to analyse
+    :param init_date: Initial date
+    :param end_date: Final date
+    """
     Path("img/").mkdir(parents=True, exist_ok=True)
-    """
-    df_prices = pd.DataFrame(columns=['Name'])
-    for date in range(init_date, end_date + 1):
-        filename = category_name + '_articles_attributes_' + str(date) + '.csv'
-        df = pd.read_csv(CSV_DIRECTORY + filename, header=None, names=CSV_COLS)
-        df1 = df[['Name', 'Price']]
-        df1 = df1.rename(columns={'Price': str(date)})
-        df_prices = df_prices.merge(df1, on='Name', how='outer')
-    df_prices.set_index('Name', inplace=True, drop=True)
-    print(df_prices)
-    """
     dfs = []
-    col_2_analyse = 'Rating'  # 'Price'
     for date in range(init_date, end_date + 1):
         str_date = str(date)
         df = pd.read_csv(CSV_DIRECTORY + category_name + '_articles_attributes_' + str_date + '.csv')
@@ -60,8 +60,7 @@ def historical_plot_category(category_name, init_date, end_date):
     # esos serán los casos más interesantes que nos interesa resaltar
     names = []
     for name in df_prices['Name'].unique():
-        if content_is_identical(df_prices.loc[df_prices['Name'] == name][col_2_analyse]):
-        else:
+        if not content_is_identical(df_prices.loc[df_prices['Name'] == name][col_2_analyse]):
             names.append(name)
     df_prices_variations = df_prices[df_prices['Name'].isin(names)]
 
@@ -95,4 +94,4 @@ if __name__ == '__main__':
     category_name = 'adaptador-usb'  # Por ejemplo
     filename = 'adaptador-usb_articles_attributes_20200406.csv'  # Por ejemplo
     box_plot_category(filename)
-    historical_plot_category(category_name, 20200406, 20200410)  # Elegir las fechas que se quieran
+    historical_plot_category(category_name, 'Rating', 20200406, 20200410)  # Elegir las fechas y la col que se quieran

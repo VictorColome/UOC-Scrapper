@@ -109,9 +109,9 @@ class Scraper:
         while page.status_code != 404:
             article_urls = article_urls + list(map(self.__get_url, soup.findAll("div", {"class": "js-article-info"})))
             i += 1
-            # TODO Delete or change ?page functionality or add wait timer
-            if i == 3:
-                break
+            # Gets only 1 page of articles
+            # if i == 3:
+            #    break
             page = requests.get(category_url + "?page=" + str(i), headers={'User-Agent': self.ua})
             soup = BeautifulSoup(page.content, features="html.parser")
         return article_urls

@@ -43,7 +43,7 @@ class DataExporter:
         Export articles' specifications from a given category to CSV
         :param category_name: category name
         :param articles: list of articles
-        :return: create CSV file in sample/csv TODO JSON?
+        :return: create CSV file in sample/csv
         """
         Path("csv/").mkdir(parents=True, exist_ok=True)
         file_name = 'csv/' + category_name + '_articles_specifications_' + str(date.today()).replace('-', '') + '.csv'

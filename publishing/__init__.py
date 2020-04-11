@@ -5,11 +5,20 @@ import requests
 
 
 def get_token():
+    """
+    Get Zenodo secret token from file
+    :return: token
+    """
     f = open("token.txt", "r")
     return f.read()
 
 
 def upload_csv(token, csv_path_to_file):
+    """
+    Upload dataset to Zenodo
+    :param token: token to connect to Zenodo
+    :param csv_path_to_file: dataset file
+    """
     print("\nRequesting access to Zenodo...")
     while True:
         r = requests.get('https://zenodo.org/api/deposit/depositions', params={'access_token': token})

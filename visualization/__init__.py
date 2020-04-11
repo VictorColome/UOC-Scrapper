@@ -4,6 +4,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.dates import DateFormatter
 
 # Constants
 CSV_DIRECTORY = '../sample/csv/'
@@ -54,23 +55,29 @@ def historical_plot_category(category_name, init_date, end_date):
     df_prices = pd.concat(dfs)
     print(df_prices)
     df_prices.to_csv('../sample/csv/all_data_'+str(init_date)+'_to_'+str(end_date)+'.csv', index=False, header=True)
-    print("Start ploting, might take a while...")
-    names = []
 
-    # TODO Código para coger todos los productos que tienen col_2_analyse diferentes
+    # Vamos a quedarnos únicamente con aquellos artículos cuyos valores cambien en algo, ya que entendemos que
+    # esos serán los casos más interesantes que nos interesa resaltar
+    names = []
     for name in df_prices['Name'].unique():
         if content_is_identical(df_prices.loc[df_prices['Name'] == name][col_2_analyse]):
+        else:
             names.append(name)
-            print(name)  # TODO borrar
-    print(df_prices[df_prices['Name'].isin(names)])
+    df_prices_variations = df_prices[df_prices['Name'].isin(names)]
 
-    # TODO: Descomentar!!!
-    #fig, ax = plt.subplots(1, 1)
-    #df_prices.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
-    #ax.get_legend().remove()
-    #plt.xlabel('Date')
-    #plt.ylabel(col_2_analyse)
-    #store_image('img/historical_{}.png'.format(category_name))
+#   Una forma algo más "pythonizada" de hacerlo  :-)
+#    df_prices_variations = df_prices[df_prices.groupby(['Name', col_2_analyse])['Date'].transform('nunique') > 1]
+    df_prices_variations.to_csv('../sample/csv/just_var_'+str(init_date)+'_to_'+str(end_date)+'.csv', index=False, header=True)
+
+    print("Start ploting, might take a while...")
+
+    fig, ax = plt.subplots(1, 1)
+    ax.xaxis.set_major_formatter(DateFormatter("%d-%m-%Y"))
+    df_prices_variations.groupby('Name').plot(x='Date', y=col_2_analyse, ax=ax)
+    ax.get_legend().remove()
+    plt.xlabel('Date')
+    plt.ylabel(col_2_analyse)
+    store_image('img/historical_{}.png'.format(category_name))
     print("Done")
 
 

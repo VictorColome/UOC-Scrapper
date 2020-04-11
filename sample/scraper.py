@@ -87,6 +87,7 @@ class Scraper:
             newcat.name = newcat.loc.split('/')[len(newcat.loc.split('/')) - 1]
             categories.append(newcat)
             print('New category read ' + str(newcat))
+
         # print(categorias)
         return categories
 

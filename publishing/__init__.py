@@ -44,8 +44,9 @@ def upload_csv(token, csv_path_to_file):
         'metadata': {
             'title': 'Catálogo público de productos de PC Componentes',
             'upload_type': 'dataset',
-            'description': 'Este fichero contiene un ejemplo real del tipo de datos que se pueden encontrar al ejecutar el scraper. Si quiere conocer más a fondo el proceso mediante el que fueron recogidos, puede visitar la web del proyecto en https://github.com/VictorColome/UOC-Scrapper',
-            'license': 'This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.'
+            'description': 'Este fichero contiene un ejemplo real del tipo de datos que se pueden encontrar al ejecutar el scraper. Si quiere conocer más a fondo el proceso mediante el que fueron recogidos, puede visitar la web del proyecto en https://github.com/VictorColome/UOC-Scrapper. Licencia: This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.',
+            'access_right': 'open',
+#            'license': '',
             'creators': [{'name': 'Víctor Colomé y Carlos Marcos',
                           'affiliation': 'UOC'}],
             'keywords': ["uoc", "scraping"]
@@ -73,4 +74,4 @@ def upload_csv(token, csv_path_to_file):
 
 if __name__ == '__main__':
     access_token = get_token()
-    upload_csv(access_token, "../sample/csv/adaptador-usb_articles_attributes_20200406.csv")
+    upload_csv(access_token, "../sample/csv/just_var_20200406_to_20200410.csv")
